@@ -1,3 +1,3 @@
 git add .
-git commit -m "relational"
-git push origin relational
+git commit -m "homework2"
+git push origin homework2

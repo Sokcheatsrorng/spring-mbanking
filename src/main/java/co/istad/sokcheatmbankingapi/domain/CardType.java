@@ -15,12 +15,14 @@ import java.util.List;
 public class CardType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+
+    @Column(unique = true, nullable = false, length = 100)
     private String name;
-    private String description;
-    private Boolean isEnabled;
+
+    private Boolean isDeleted;
+
     @OneToMany(mappedBy = "cardType")
     private List<Card> cards;
-
 
 }

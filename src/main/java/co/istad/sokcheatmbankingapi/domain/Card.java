@@ -16,17 +16,24 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 20, nullable = false)
+
+    @Column(unique = true, nullable = false)
     private String number;
-    @Column(length = 4, nullable = false,unique = true)
+
+    @Column(nullable = false)
     private String cvv;
+
     private String holder;
+
     private LocalDate issuedAt;
     private LocalDate expiredAt;
+
     private Boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "type_id")
     private CardType cardType;
+
     @OneToOne(mappedBy = "card")
     private Account account;
 
