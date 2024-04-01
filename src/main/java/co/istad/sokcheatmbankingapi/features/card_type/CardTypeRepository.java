@@ -1,4 +1,4 @@
-package co.istad.sokcheatmbankingapi.features.account.card.card_type;
+package co.istad.sokcheatmbankingapi.features.card_type;
 
 import co.istad.sokcheatmbankingapi.domain.CardType;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
-package co.istad.sokcheatmbankingapi.features.account.account_type;
+package co.istad.sokcheatmbankingapi.features.account_type;
 
 import co.istad.sokcheatmbankingapi.domain.AccountType;
-import co.istad.sokcheatmbankingapi.features.account.account_type.dto.AccountTypeResponse;
+import co.istad.sokcheatmbankingapi.features.account_type.dto.AccountTypeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +16,7 @@ import java.util.List;
 public class AccountTypeController {
     private final AccountTypeService accountTypeService;
     @GetMapping
-    public List<AccountType> getAllAccountTypes() {
+    public List<AccountTypeResponse> getAllAccountTypes() {
         return accountTypeService.findList();
     }
     @GetMapping("/{alias}")

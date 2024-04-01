@@ -1,7 +1,7 @@
-package co.istad.sokcheatmbankingapi.features.account.card.card_type;
+package co.istad.sokcheatmbankingapi.features.card_type;
 
 import co.istad.sokcheatmbankingapi.domain.CardType;
-import co.istad.sokcheatmbankingapi.features.account.card.card_type.dto.CardTypeResponse;
+import co.istad.sokcheatmbankingapi.features.card_type.dto.CardTypeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +16,8 @@ import java.util.List;
 public class CardTypeController {
     private final CardTypeService cardTypeService;
     @GetMapping
-    public List<CardType> findList(){
+    public List<CardTypeResponse> findList()
+    {
         return cardTypeService.findList();
     }
     @GetMapping("/{name}")

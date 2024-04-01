@@ -24,20 +24,6 @@ public class ServiceException {
                 .body(Map.of("error",ex.getReason()));
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, Object>> handleDtoException(MethodArgumentNotValidException ex) {
-        List<Map<String, Object>> errors = new ArrayList<>();
-        ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
-            Map<String, Object> error = new HashMap<>();
-            error.put("field", fieldError.getField());
-            error.put("reason", fieldError.getDefaultMessage());
-            errors.add(error);
-        });
-        Map<String,Object> getError = new HashMap<>();
-        getError.put("message",errors);
-        return new ResponseEntity<>(getError,HttpStatus.BAD_REQUEST);
-    }
 
 
 }

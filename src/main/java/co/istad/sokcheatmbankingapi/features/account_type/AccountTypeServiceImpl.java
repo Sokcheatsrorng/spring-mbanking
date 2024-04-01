@@ -1,7 +1,8 @@
-package co.istad.sokcheatmbankingapi.features.account.account_type;
+package co.istad.sokcheatmbankingapi.features.account_type;
 
 import co.istad.sokcheatmbankingapi.domain.AccountType;
-import co.istad.sokcheatmbankingapi.features.account.account_type.dto.AccountTypeResponse;
+import co.istad.sokcheatmbankingapi.features.account_type.dto.AccountTypeResponse;
+import co.istad.sokcheatmbankingapi.mapper.AccountTypeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountTypeServiceImpl implements AccountTypeService {
     private final AccountTypeRepository accountTypeRepository;
+    private final AccountTypeMapper accountTypeMapper;
     @Override
-    public List<AccountType> findList() {
+    public List<AccountTypeResponse> findList() {
         List<AccountType> accountTypes = accountTypeRepository.findAll();
-        return accountTypes;
+        return accountTypeMapper.toAccountTypeReponseList(accountTypes);
     }
-
     @Override
     public AccountTypeResponse findByAlias(String alias) {
         AccountType accountType = accountTypeRepository.findByAlias(alias)
@@ -28,10 +29,6 @@ public class AccountTypeServiceImpl implements AccountTypeService {
                         )
                 );
 
-        return new AccountTypeResponse(
-                accountType.getName(),
-                accountType.getDescription(),
-                accountType.getIsDeleted()
-        );
+        return accountTypeMapper.toAccountTypeResponse(accountType);
     }
 }

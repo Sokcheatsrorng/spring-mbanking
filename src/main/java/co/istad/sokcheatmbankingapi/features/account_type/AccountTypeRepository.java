@@ -1,4 +1,4 @@
-package co.istad.sokcheatmbankingapi.features.account.account_type;
+package co.istad.sokcheatmbankingapi.features.account_type;
 
 import co.istad.sokcheatmbankingapi.domain.AccountType;
 import org.springframework.data.jpa.repository.JpaRepository;
