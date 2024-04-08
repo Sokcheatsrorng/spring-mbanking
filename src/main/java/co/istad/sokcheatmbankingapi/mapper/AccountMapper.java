@@ -27,7 +27,6 @@ public interface AccountMapper {
   AccountResponse toAccountResponse(Account account);
   // we can use map struct / mapper stay in resource
 
-
 }
 
 
