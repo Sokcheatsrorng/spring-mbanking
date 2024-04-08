@@ -3,6 +3,7 @@ package co.istad.sokcheatmbankingapi.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.boot.spi.SessionFactoryOptions;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,5 +43,6 @@ public class Account {
     private Card card;
 
     private Boolean isHidden; // uses to hide account on mobile app
+
 
 }

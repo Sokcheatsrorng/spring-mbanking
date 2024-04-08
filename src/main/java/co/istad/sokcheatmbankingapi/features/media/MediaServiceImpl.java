@@ -161,25 +161,41 @@ public class MediaServiceImpl implements MediaService {
         }
     }
 
+//    @Override
+//    public ResponseEntity<Resource> downloadMediaByName(String folderName, String fileName) {
+//        return null;
+////        try {
+////            Path path = Paths.get(serverPath+folderName+"\\"+fileName);
+////            Resource resource = new UrlResource(path.toUri());
+////
+////            if (!resource.exists()) {
+////                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Media file not found");
+////            }
+////            HttpHeaders headers = new HttpHeaders();
+////            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+////            headers.setContentDispositionFormData("attachment", fileName);
+////            return ResponseEntity.ok()
+////                    .headers(headers)
+////                    .body(resource);
+////
+////        } catch (IOException e) {
+////            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error downloading media file", e);
+////        }
+//    }
+
     @Override
-    public ResponseEntity<Resource> downloadMediaByName(String folderName, String fileName) {
+    public Resource downloadMediaByName(String mediaName,String folderName) {
+        Path path = Paths.get(serverPath+folderName+"\\"+mediaName);
         try {
-            Path path = Paths.get(serverPath+folderName+"\\"+fileName);
             Resource resource = new UrlResource(path.toUri());
-
-            if (!resource.exists()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Media file not found");
-            }
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", fileName);
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(resource);
-
-        } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error downloading media file", e);
+            return  resource;
+        } catch (MalformedURLException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    e.getLocalizedMessage()
+            );
         }
+
     }
 
 }

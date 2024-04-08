@@ -48,9 +48,17 @@ public class MediaController {
     public List<MediaResponse> loadAllMediaFiles() {
         return mediaService.loadAllMediaFiles("IMAGE");
     }
-    @GetMapping("/download/{fileName}")
-    public ResponseEntity<Resource> downloadMediaByName(String folderName, @PathVariable String fileName) {
-       return mediaService.downloadMediaByName("IMAGE", fileName);
+    @GetMapping(path={"/{mediaName}/download","/download/{mediaName}"},
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
+    )
+    public ResponseEntity<?> downloadMediaByName( @PathVariable String mediaName) {
+        Resource resources = mediaService.downloadMediaByName(mediaName,"IMAGE");
+        HttpHeaders headers = new HttpHeaders();
+//        headers.set(HttpHeaders.CONTENT_DISPOSITION("attachment:","fileName:"+mediaName);
+        headers.setContentDispositionFormData("attachment","fileName: "+ mediaName);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resources);
     }
 }
 

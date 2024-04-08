@@ -9,12 +9,18 @@ import java.io.IOException;
 import java.util.List;
 
 public interface MediaService {
-    MediaResponse uploadSingle(MultipartFile file,String folderName);
+    MediaResponse uploadSingle(MultipartFile file, String folderName);
+
     List<MediaResponse> uploadMultiple(List<MultipartFile> files, String folderName);
-    MediaResponse loadFileByName(String mediaName,String folderName);
-    MediaResponse deleteMediaByName(String mediaName,String folderName);
+
+    MediaResponse loadFileByName(String mediaName, String folderName);
+
+    MediaResponse deleteMediaByName(String mediaName, String folderName);
+
     List<MediaResponse> loadAllMediaFiles(String folderName);
 
+//    ResponseEntity<?> downloadMediaByName(String folderName, String mediaName);
 
-    ResponseEntity<Resource> downloadMediaByName(String folderName, String fileName);
+    Resource downloadMediaByName(String mediaName,String folderName);
+
 }

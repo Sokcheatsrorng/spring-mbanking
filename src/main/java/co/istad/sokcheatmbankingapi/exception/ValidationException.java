@@ -1,5 +1,7 @@
 package co.istad.sokcheatmbankingapi.exception;
 
+import co.istad.sokcheatmbankingapi.base.BasedError;
+import co.istad.sokcheatmbankingapi.base.BasedErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,8 +17,8 @@ import java.util.Map;
 public class ValidationException {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, Object> handleValidationErrors(MethodArgumentNotValidException ex) {
-
+    BasedErrorResponse handleValidationErrors(MethodArgumentNotValidException ex) {
+        BasedError<List<?>> basedError = new BasedError<>();
         List<Map<String, Object>> errors = new ArrayList<>();
 
         ex.getBindingResult().getFieldErrors()
@@ -26,8 +28,9 @@ public class ValidationException {
                     error.put("reason", fieldError.getDefaultMessage());
                     errors.add(error);
                 });
-
-        return Map.of("errors", errors);
+        basedError.setCode(HttpStatus.BAD_REQUEST.getReasonPhrase());
+        basedError.setDescription(errors);
+        return new BasedErrorResponse(basedError);
     }
 
 }

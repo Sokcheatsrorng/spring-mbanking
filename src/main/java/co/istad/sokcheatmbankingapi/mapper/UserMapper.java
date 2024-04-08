@@ -1,14 +1,13 @@
 package co.istad.sokcheatmbankingapi.mapper;
 
+import co.istad.sokcheatmbankingapi.domain.Account;
 import co.istad.sokcheatmbankingapi.domain.User;
+import co.istad.sokcheatmbankingapi.domain.UserAccount;
 import co.istad.sokcheatmbankingapi.features.user.dto.UserCreateRequest;
 import co.istad.sokcheatmbankingapi.features.user.dto.UserDetailResponse;
 import co.istad.sokcheatmbankingapi.features.user.dto.UserResponse;
 import co.istad.sokcheatmbankingapi.features.user.dto.UserUpdateRequest;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -26,7 +25,17 @@ public interface UserMapper {
 
 
     UserDetailResponse toUserDetailsResponse(User user);
-
     UserResponse toUserResponse(User user);
+
+    UserAccount toUserAccount(User user);
+    User fromUserAccount(Account account);
+    @Named("mapUserResponse")
+    default UserResponse mapUserResponse(List<UserAccount> userAccountList){
+        return toUserResponse(userAccountList.get(0).getUser());
+    }
+
+
     List<UserResponse> toUserResponseList(List<User> users);
+    // map user from userAccount
+
 }

@@ -1,6 +1,6 @@
 package co.istad.sokcheatmbankingapi.features.user;
 
-import co.istad.sokcheatmbankingapi.base.BaseMessage;
+import co.istad.sokcheatmbankingapi.base.BasedMessage;
 import co.istad.sokcheatmbankingapi.domain.Role;
 import co.istad.sokcheatmbankingapi.domain.User;
 import co.istad.sokcheatmbankingapi.features.user.dto.*;
@@ -9,6 +9,9 @@ import co.istad.sokcheatmbankingapi.status.DisableUser;
 import co.istad.sokcheatmbankingapi.status.EnableUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,8 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final RoleRespository roleRespository;
     private final UserMapper userMapper;
+    @Value("${media.server-path}")
+    private String mediaBaseUri;
     @Override
     public void userCreateRequest(UserCreateRequest userCreateRequest) {
         if(userRepository.existsByPhoneNumber(userCreateRequest.phoneNumber())){
@@ -184,7 +189,7 @@ public class UserServiceImpl implements UserService{
     }
     @Transactional
     @Override
-    public BaseMessage blockByUuid(String uuid) {
+    public BasedMessage blockByUuid(String uuid) {
         if(!userRepository.existsByUuid(uuid)){
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
@@ -192,7 +197,7 @@ public class UserServiceImpl implements UserService{
             );
         }
         userRepository.blockByUuid(uuid);
-        return new BaseMessage("user has been blocked");
+        return new BasedMessage("user has been blocked");
     }
 
     @Override
@@ -238,5 +243,18 @@ public class UserServiceImpl implements UserService{
         Page<User> users = userRepository.findAll(pageRequest);
 //       List<User> users = userRepository.findAll();
         return users.map(userMapper::toUserResponse);
+    }
+
+    @Override
+    public String updateProfileImage(String uuid, String mediaName) {
+        User user = userRepository.findByUuid(uuid)
+                .orElseThrow(()->
+                         new ResponseStatusException(
+                                 HttpStatus.NOT_FOUND,
+                                 "User has been not found!"
+                         ));
+        user.setProfileImage(mediaName);
+        userRepository.save(user);
+        return mediaBaseUri+"IMAGE/"+mediaName;
     }
 }

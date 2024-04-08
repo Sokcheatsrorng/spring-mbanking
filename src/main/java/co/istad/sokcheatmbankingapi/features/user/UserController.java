@@ -1,15 +1,13 @@
 package co.istad.sokcheatmbankingapi.features.user;
 
-import co.istad.sokcheatmbankingapi.base.BaseMessage;
-import co.istad.sokcheatmbankingapi.domain.User;
+import co.istad.sokcheatmbankingapi.base.BasedMessage;
+import co.istad.sokcheatmbankingapi.base.BasedResponse;
 import co.istad.sokcheatmbankingapi.features.user.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -55,7 +53,7 @@ public class UserController {
         return userService.getUserByUuid(uuid);
     }
     @PutMapping("/{uuid}/block")
-    public BaseMessage updateBlock(@PathVariable String uuid){
+    public BasedMessage updateBlock(@PathVariable String uuid){
         return userService.blockByUuid(uuid);
     }
     @DeleteMapping("/{uuid}")
@@ -72,4 +70,12 @@ public class UserController {
         userService.disableUser(uuid);
     }
 
+    @PutMapping("/{uuid}/profile-image")
+    public BasedResponse<?> updateProfileImage(@PathVariable String uuid,
+                                            @Valid @RequestBody UserProfileImageRequest updateProfileImageRequest){
+        String updateProfileImage= userService.updateProfileImage(uuid,updateProfileImageRequest.profileImage());
+        return BasedResponse.builder()
+                .payload(updateProfileImage)
+                .build();
+    }
 }
