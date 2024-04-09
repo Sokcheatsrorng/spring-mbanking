@@ -73,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
         long nineDigitNumber = (long) (random.nextDouble() * 900000000L) + 100000000L;
         account.setActNo(String.format("%d", nineDigitNumber));
         account.setActName(user.getName());
-        account.setTransferLimit(BigDecimal.valueOf(5000));
+        account.setTransferLimit(account.getBalance());
         account.setIsHidden(false);
 
         UserAccount userAccount = new UserAccount();

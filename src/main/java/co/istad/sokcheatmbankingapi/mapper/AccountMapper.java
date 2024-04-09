@@ -5,6 +5,7 @@ import co.istad.sokcheatmbankingapi.domain.User;
 import co.istad.sokcheatmbankingapi.domain.UserAccount;
 import co.istad.sokcheatmbankingapi.features.account.dto.AccountCreateRequest;
 import co.istad.sokcheatmbankingapi.features.account.dto.AccountResponse;
+import co.istad.sokcheatmbankingapi.features.account.dto.AccountSnippetResponse;
 import co.istad.sokcheatmbankingapi.features.user.dto.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -26,6 +27,8 @@ public interface AccountMapper {
           qualifiedByName = "mapUserResponse")
   AccountResponse toAccountResponse(Account account);
   // we can use map struct / mapper stay in resource
+
+  AccountSnippetResponse toAccountSnippetResponse(Account account);
 
 }
 
